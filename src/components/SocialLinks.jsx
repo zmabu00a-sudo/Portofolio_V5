@@ -14,7 +14,7 @@ const socialLinks = [
   {
     name: "LinkedIn",
     displayName: "Let's Connect",
-    subText: "on LinkedIn",
+    subText: "Trà Cũ Vị Xưa",
     icon: Linkedin,
     url: "https://www.linkedin.com/in/ekizr/",
     color: "#0A66C2",
@@ -24,42 +24,42 @@ const socialLinks = [
   {
     name: "Instagram",
     displayName: "Instagram",
-    subText: "@ekizr_",
+    subText: "@Nhóm 1_",
     icon: Instagram,
-    url: "https://www.instagram.com/ekizr_/?hl=id",
+    url: "",
     color: "#E4405F",
     gradient: "from-[#833AB4] via-[#E4405F] to-[#FCAF45]",
   },
   {
     name: "YouTube",
     displayName: "Youtube",
-    subText: "@eki zulfar",
+    subText: "@Nhóm 1",
     icon: Youtube,
-    url: "https://www.youtube.com/@eki_zulfar",
+    url: "",
     color: "#FF0000",
     gradient: "from-[#FF0000] to-[#CC0000]",
   },
   {
     name: "GitHub",
     displayName: "Github",
-    subText: "@EkiZR",
+    subText: "@LongHp",
     icon: Github,
-    url: "https://github.com/EkiZR",
+    url: "https://github.com/zmabu00a-sudo",
     color: "#ffffff",
     gradient: "from-[#333] to-[#24292e]",
   },
   {
     name: "TikTok",
     displayName: "Tiktok",
-    subText: "@eki_zulfar",
+    subText: "LongHo",
     icon: ({ className, ...props }) => (
       <svg
         width="24px"
         height="24px"
         viewBox="0 0 45 45"
         version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
+        xmlns="https://www.tiktok.com/@the_pythonic"
+        xmlnsXlink="https://www.tiktok.com/@the_pythonic"
       >
         <title>Tiktok</title>
         <g
@@ -114,7 +114,7 @@ const SocialLinks = () => {
         data-aos="fade-down" 
       >
         <span className="inline-block w-8 h-1 bg-indigo-500 rounded-full"></span>
-        Connect With Me
+        Kết Nối Với Chúng Tôi
       </h3>
 
       <div className="flex flex-col gap-4">

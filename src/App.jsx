@@ -1,3 +1,4 @@
+import LoginGateway from "./Pages/LoginGateway";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { useState, lazy, Suspense } from "react";
 import { HelmetProvider } from "react-helmet-async";
@@ -20,17 +21,31 @@ const WelcomeScreen = lazy(() => import("./Pages/WelcomeScreen"));
 const NotFoundPage = lazy(() => import("./Pages/404"));
 
 const LandingPage = ({ showWelcome, setShowWelcome }) => {
+  // Thêm state để kiểm soát việc hiển thị Gateway sau khi WelcomeScreen xong
+  const [showGateway, setShowGateway] = useState(false);
+
+  const handleLoadingComplete = () => {
+    setShowWelcome(false);
+    setShowGateway(true); // Kích hoạt Gateway ngay khi WelcomeScreen biến mất
+  };
+
   return (
     <>
       <AnimatePresence mode="wait">
         {showWelcome && (
           <Suspense fallback={null}>
-            <WelcomeScreen onLoadingComplete={() => setShowWelcome(false)} />
+            <WelcomeScreen onLoadingComplete={handleLoadingComplete} />
           </Suspense>
         )}
       </AnimatePresence>
 
-      {!showWelcome && (
+      {/* Hiển thị LoginGateway nếu WelcomeScreen đã xong và chưa nhấn Bỏ qua/Login */}
+      {!showWelcome && showGateway && (
+        <LoginGateway onFinish={() => setShowGateway(false)} />
+      )}
+
+      {/* Hiển thị nội dung chính của Web chỉ khi cả Welcome và Gateway đều đã qua */}
+      {!showWelcome && !showGateway && (
         <>
           <Navbar />
       
@@ -60,11 +75,10 @@ function App() {
   const [showWelcome, setShowWelcome] = useState(true);
 
   return (
-    
     <HelmetProvider>
       <div className="pointer-events-none">
-  <AnimatedBackground />
-</div>
+        <AnimatedBackground />
+      </div>
       <BrowserRouter>
         <Routes>
           {/* PUBLIC */}
