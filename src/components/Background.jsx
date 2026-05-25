@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useMemo } from "react"
+import { Wrench, Settings, Cpu, Database } from "lucide-react"
 
 const AnimatedBackground = () => {
 	const blobRefs = useRef([])
@@ -8,6 +9,19 @@ const AnimatedBackground = () => {
 		{ x: 20, y: -8 },
 		{ x: 20, y: -8 },
 	]
+
+	// Tạo danh sách 30 icon ngẫu nhiên về vị trí, kích thước và góc xoay
+	const randomIcons = useMemo(() => {
+		const icons = [Wrench, Settings, Cpu, Database]
+		return [...Array(30)].map((_, i) => ({
+			id: i,
+			Icon: icons[Math.floor(Math.random() * icons.length)],
+			top: `${Math.random() * 100}%`,
+			left: `${Math.random() * 100}%`,
+			size: Math.floor(Math.random() * 60) + 20, // Kích thước ngẫu nhiên từ 20 đến 80
+			rotate: Math.floor(Math.random() * 360),   // Góc xoay ngẫu nhiên từ 0 đến 360 độ
+		}))
+	}, [])
 
 	useEffect(() => {
 		let currentScroll = 0
@@ -59,10 +73,27 @@ const AnimatedBackground = () => {
 					ref={(ref) => (blobRefs.current[3] = ref)}
 					className="absolute -bottom-10 right-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 md:opacity-10 hidden sm:block"></div>
 			</div>
+
+			{/* Lớp chứa các Icon mờ, ngẫu nhiên */}
+			<div className="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.06]">
+				{randomIcons.map((item) => (
+					<div
+						key={item.id}
+						className="absolute text-slate-400"
+						style={{
+							top: item.top,
+							left: item.left,
+							transform: `rotate(${item.rotate}deg)`,
+						}}
+					>
+						<item.Icon size={item.size} />
+					</div>
+				))}
+			</div>
+
 			<div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f10_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f10_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 		</div>
 	)
 }
 
 export default AnimatedBackground
-

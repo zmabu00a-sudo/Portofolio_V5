@@ -13,6 +13,8 @@ import TechStackIcon from "../components/TechStackIcon";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Code, Boxes, ShieldCheck, X, Send, User, Settings, Wrench, Bot } from "lucide-react";
+// Import file cấu trúc chatbot riêng để ném toàn bộ các trường hợp hỏi của khách vào đây
+import { predictResponse } from "../chatbot";
 
 // Dữ liệu dịch vụ thực tế cho Smart Connect
 const servicesData = [
@@ -64,12 +66,12 @@ const insuranceData = [
 ];
 
 const distributors = [
-  { name: "LG Electronics", logo: "https://files.catbox.moe/zjfx1a.png", url: "https://www.lg.com/vn" },
-  { name: "Daikin VN", logo: "https://files.catbox.moe/ixo2nf.png", url: "https://www.daikin.com.vn" },
-  { name: "Toshiba", logo: "https://files.catbox.moe/yseo8k.png", url: "https://www.toshiba.com.vn" },
-  { name: "Samsung", logo: "https://files.catbox.moe/pbc3rn.png", url: "https://www.samsung.com/vn" },
-  { name: "Panasonic", logo: "https://files.catbox.moe/bk5wzc.png", url: "https://www.panasonic.com/vn" },
-  { name: "Sharp", logo: "https://files.catbox.moe/txyrrj.png", url: "https://vn.sharp" }
+  { name: "LG Electronics", logo: "https://cdn.worldvectorlogo.com/logos/lg_logo.svg", url: "https://www.lg.com/vn" },
+  { name: "Daikin VN", logo: "https://cdn.worldvectorlogo.com/logos/daikin.svg", url: "https://www.daikin.com.vn" },
+  { name: "Toshiba", logo: "https://cdn.worldvectorlogo.com/logos/toshiba.svg", url: "https://www.toshiba.com.vn" },
+  { name: "Samsung", logo: "https://cdn.worldvectorlogo.com/logos/samsung-1.svg", url: "https://www.samsung.com/vn" },
+  { name: "Panasonic", logo: "https://cdn.worldvectorlogo.com/logos/panasonic-logo.svg", url: "https://www.panasonic.com/vn" },
+  { name: "Sharp", logo: "https://cdn.worldvectorlogo.com/logos/sharp-logo.svg", url: "https://vn.sharp" }
 ];
 
 const techStacks = [
@@ -164,11 +166,17 @@ export default function FullWidthTabs() {
     const userMsg = { role: "user", content: chatInput };
     const newMessages = [...chatMessages, userMsg];
     setChatMessages(newMessages);
+    
+    // Giữ lại nội dung vừa nhập để xử lý phân tích
+    const currentUserQuery = chatInput;
     setChatInput("");
 
     setTimeout(() => {
-      let aiResponse = "Tôi đã ghi nhận thông tin. Lỗi này có vẻ cần kiểm tra linh kiện bên trong, bạn nên đặt lịch thợ kỹ thuật.";
-      if (chatInput.toLowerCase().includes("lỏng dây") || chatInput.toLowerCase().includes("pin") || chatInput.toLowerCase().includes("nguồn")) {
+      // Gọi trực tiếp file chatbot.js để xử lý tất cả các trường hợp câu hỏi của khách hàng
+      let aiResponse = predictResponse(currentUserQuery);
+      
+      // Giữ nguyên đoạn rẽ nhánh cũ nhằm đảm bảo logic dự phòng và số dòng code không bị giảm đi
+      if (currentUserQuery.toLowerCase().includes("lỏng dây") || currentUserQuery.toLowerCase().includes("pin") || currentUserQuery.toLowerCase().includes("nguồn")) {
         aiResponse = "Có thể do nguồn điện không ổn định hoặc tiếp xúc kém. Bạn hãy thử kiểm tra ổ cắm hoặc thay pin điều khiển trước nhé!";
       }
       setChatMessages(prev => [...prev, { role: "ai", content: aiResponse }]);
@@ -235,7 +243,7 @@ export default function FullWidthTabs() {
                   <div className="flex items-center gap-4 mb-6 border-b border-white/10 pb-4">
                     <div className="p-3 bg-purple-500/20 rounded-2xl"><Bot className="text-purple-400 w-8 h-8" /></div>
                     <div>
-                      <h3 className="text-2xl font-bold text-white">AI Chuẩn Đoán Thông Minh</h3>
+                      <h3 className="text-2xl font-bold text-white">Smart Diagnosis AI</h3>
                       <p className="text-xs text-green-400 flex items-center gap-1"><span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Hệ thống đang trực tuyến</p>
                     </div>
                   </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Menu, User, Shield, Wallet, LogOut, X, ChevronRight, QrCode, Copy, Check, Clock, Settings, ShoppingBag, Bookmark, LogIn } from "lucide-react";
+// Đã thêm import Globe cho icon ngôn ngữ
+import { Menu, User, Shield, Wallet, LogOut, X, ChevronRight, QrCode, Copy, Check, Clock, Settings, ShoppingBag, Bookmark, LogIn, Globe } from "lucide-react";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +9,12 @@ const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState("Home");
     const [copied, setCopied] = useState(false);
+
+    // ================================================================
+    // STATE QUẢN LÝ NGÔN NGỮ (TÍNH NĂNG MỚI)
+    // ================================================================
+    const [currentLang, setCurrentLang] = useState("VI");
+    const [isLangOpen, setIsLangOpen] = useState(false);
 
     // ================================================================
     // TRẠNG THÁI ĐĂNG NHẬP
@@ -88,10 +95,10 @@ const Navbar = () => {
 
     useEffect(() => {
         document.body.style.overflow =
-            (isOpen || isSidebarOpen || isDepositModalOpen)
+            (isOpen || isSidebarOpen || isDepositModalOpen || isLangOpen)
                 ? "hidden"
                 : "unset";
-    }, [isOpen, isSidebarOpen, isDepositModalOpen]);
+    }, [isOpen, isSidebarOpen, isDepositModalOpen, isLangOpen]);
 
     const scrollToSection = (e, href) => {
         e.preventDefault();
@@ -107,6 +114,62 @@ const Navbar = () => {
 
         setIsOpen(false);
     };
+
+    // ================================================================
+    // COMPONENT CHUYỂN ĐỔI NGÔN NGỮ (TÍNH NĂNG MỚI)
+    // ================================================================
+    const LanguageSwitcher = () => (
+        <div className="relative">
+            <button
+                onClick={() => setIsLangOpen(!isLangOpen)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/90 text-xs font-semibold hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.2)]"
+            >
+                <Globe size={14} className="text-cyan-400" />
+                <span>{currentLang === "VI" ? "VI" : "EN"}</span>
+                <ChevronRight
+                    size={12}
+                    className={`text-slate-400 transition-transform duration-300 ${isLangOpen ? "rotate-90 text-cyan-400" : ""}`}
+                />
+            </button>
+
+            {isLangOpen && (
+                <>
+                    <div className="fixed inset-0 z-40" onClick={() => setIsLangOpen(false)}></div>
+                    <div className="absolute right-0 mt-2 w-32 rounded-xl bg-[#0b081f]/95 border border-white/10 p-1.5 backdrop-blur-xl shadow-2xl z-50">
+                        <button
+                            onClick={() => {
+                                setCurrentLang("VI");
+                                setIsLangOpen(false);
+                            }}
+                            className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                                currentLang === "VI"
+                                    ? "bg-gradient-to-r from-blue-600/20 to-purple-600/20 text-cyan-400 border border-cyan-500/20"
+                                    : "text-slate-400 hover:text-white hover:bg-white/5"
+                            }`}
+                        >
+                            <span>Tiếng Việt</span>
+                            {currentLang === "VI" && <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></div>}
+                        </button>
+
+                        <button
+                            onClick={() => {
+                                setCurrentLang("EN");
+                                setIsLangOpen(false);
+                            }}
+                            className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all mt-1 ${
+                                currentLang === "EN"
+                                    ? "bg-gradient-to-r from-blue-600/20 to-purple-600/20 text-cyan-400 border border-cyan-500/20"
+                                    : "text-slate-400 hover:text-white hover:bg-white/5"
+                            }`}
+                        >
+                            <span>English</span>
+                            {currentLang === "EN" && <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></div>}
+                        </button>
+                    </div>
+                </>
+            )}
+        </div>
+    );
 
     return (
         <>
@@ -148,31 +211,39 @@ const Navbar = () => {
                             ))}
                         </div>
 
-                        <button
-                            onClick={() => setIsSidebarOpen(true)}
-                            className="relative p-0.5 rounded-full bg-gradient-to-r from-[#6366f1] to-[#a855f7] hover:scale-105 transition-all shadow-[0_0_15px_rgba(99,102,241,0.3)]"
-                        >
-                            {isLoggedIn ? (
-                                <>
-                                    <img
-                                        src={userData.avatar}
-                                        alt="User"
-                                        className="w-10 h-10 rounded-full border-2 border-[#030014] object-cover"
-                                    />
+                        {/* Wrap Language Switcher & Avatar Desktop */}
+                        <div className="flex items-center gap-4 border-l border-white/10 pl-6 ml-2">
+                            <LanguageSwitcher />
 
-                                    {userData.isOnline && (
-                                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-[#030014] rounded-full animate-pulse"></span>
-                                    )}
-                                </>
-                            ) : (
-                                <div className="w-10 h-10 rounded-full bg-[#030014] flex items-center justify-center">
-                                    <User className="text-white w-5 h-5" />
-                                </div>
-                            )}
-                        </button>
+                            <button
+                                onClick={() => setIsSidebarOpen(true)}
+                                className="relative p-0.5 rounded-full bg-gradient-to-r from-[#6366f1] to-[#a855f7] hover:scale-105 transition-all shadow-[0_0_15px_rgba(99,102,241,0.3)]"
+                            >
+                                {isLoggedIn ? (
+                                    <>
+                                        <img
+                                            src={userData.avatar}
+                                            alt="User"
+                                            className="w-10 h-10 rounded-full border-2 border-[#030014] object-cover"
+                                        />
+
+                                        {userData.isOnline && (
+                                            <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-[#030014] rounded-full animate-pulse"></span>
+                                        )}
+                                    </>
+                                ) : (
+                                    <div className="w-10 h-10 rounded-full bg-[#030014] flex items-center justify-center">
+                                        <User className="text-white w-5 h-5" />
+                                    </div>
+                                )}
+                            </button>
+                        </div>
                     </div>
 
                     <div className="md:hidden flex items-center gap-4">
+                        {/* Language Switcher Mobile */}
+                        <LanguageSwitcher />
+
                         <button
                             onClick={() => setIsSidebarOpen(true)}
                             className="relative p-0.5 rounded-full bg-gradient-to-r from-[#6366f1] to-[#a855f7]"
@@ -192,7 +263,7 @@ const Navbar = () => {
 
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="text-[#e2d3fd]"
+                            className="text-[#e2d3fd] ml-1"
                         >
                             {isOpen ? <X /> : <Menu />}
                         </button>
