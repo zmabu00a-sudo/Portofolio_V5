@@ -49,7 +49,7 @@ const LoginGateway = ({ onFinish }) => {
             .from('profiles')
             .insert([{ id: data.user.id, username: username, role: 'user' }]);
           if (profileError) throw profileError;
-          alert('Hệ thống: Tài khoản đã được khởi tạo thành công!');
+          alert('Hệ thống: Tài khoản đã được đăng kí thành công!');
         }
       } else {
         // Đăng xuất mọi phiên đăng nhập cũ để làm sạch bộ nhớ đệm Session
@@ -163,7 +163,7 @@ const LoginGateway = ({ onFinish }) => {
             {/* Sửa lỗi chữ cách nhau không đều bằng cách đổi tracking-tight thành tracking-wide cho font tiếng Việt */}
             <h1 className="text-4xl font-extrabold tracking-wide">
               <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 bg-clip-text text-transparent">
-                {isSignUp ? 'Khởi Tạo' : 'Đăng Nhập'}
+                {isSignUp ? 'Đăng Kí' : 'Đăng Nhập'}
               </span>
             </h1>
             <div className="flex items-center justify-center gap-2 mt-2">

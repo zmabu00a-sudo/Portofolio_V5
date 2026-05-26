@@ -66,12 +66,12 @@ const insuranceData = [
 ];
 
 const distributors = [
-  { name: "LG Electronics", logo: "https://cdn.worldvectorlogo.com/logos/lg_logo.svg", url: "https://www.lg.com/vn" },
+  { name: "LG Electronics", logo: "https://files.catbox.moe/jc0d71.png", url: "https://www.lg.com/vn" },
   { name: "Daikin VN", logo: "https://cdn.worldvectorlogo.com/logos/daikin.svg", url: "https://www.daikin.com.vn" },
   { name: "Toshiba", logo: "https://cdn.worldvectorlogo.com/logos/toshiba.svg", url: "https://www.toshiba.com.vn" },
-  { name: "Samsung", logo: "https://cdn.worldvectorlogo.com/logos/samsung-1.svg", url: "https://www.samsung.com/vn" },
-  { name: "Panasonic", logo: "https://cdn.worldvectorlogo.com/logos/panasonic-logo.svg", url: "https://www.panasonic.com/vn" },
-  { name: "Sharp", logo: "https://cdn.worldvectorlogo.com/logos/sharp-logo.svg", url: "https://vn.sharp" }
+  { name: "Samsung", logo: "https://files.catbox.moe/w1mz32.png", url: "https://www.samsung.com/vn" },
+  { name: "Panasonic", logo: "https://files.catbox.moe/371cr6.png", url: "https://www.panasonic.com/vn" },
+  { name: "Sharp", logo: "https://files.catbox.moe/5cwzl3.png", url: "https://vn.sharp" }
 ];
 
 const techStacks = [

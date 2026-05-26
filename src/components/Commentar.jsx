@@ -190,7 +190,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
                                 className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30 transition-all border border-dashed border-indigo-500/50 hover:border-indigo-500 group"
                             >
                                 <ImagePlus className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                                <span>Choose Ảnh Đính Kèm</span>
+                                <span>Thêm Ảnh Đính Kèm</span>
                             </button>
                             <p className="text-center text-gray-400 text-sm mt-2">
                                 Kích Cỡ Tối Đa: 5MB
