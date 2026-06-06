@@ -1,10 +1,41 @@
 import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { MessageCircle, UserCircle2, Loader2, AlertCircle, Send, ImagePlus, X, Pin } from 'lucide-react';
+import { MessageCircle, UserCircle2, Loader2, AlertCircle, Send, ImagePlus, X, Pin, Sparkles, Star } from 'lucide-react';
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { supabase } from '../supabase';
 
+// Khối dữ liệu gồm 4 phản hồi thực tế được bổ sung mới
+const feedbackData = [
+    {
+        id: 'f1',
+        user_name: "Nguyễn Minh Tuấn",
+        role: "Chủ căn hộ EcoPark",
+        content: "Hệ thống kết nối thợ rất nhanh. Kỹ thuật viên đến đúng giờ, làm việc sạch sẽ và báo giá minh bạch qua app. Rất đáng tin cậy!",
+        rating: 5
+    },
+    {
+        id: 'f2',
+        user_name: "Lê Thị Lan Anh",
+        role: "Doanh nghiệp nhỏ",
+        content: "Gói bảo hiểm thiết bị của Smart Connect giúp mình yên tâm hơn hẳn. Quy trình xử lý lỗi nhanh, hỗ trợ kỹ thuật 24/7 rất chuyên nghiệp.",
+        rating: 5
+    },
+    {
+        id: 'f3',
+        user_name: "Trần Văn Hùng",
+        role: "Kỹ sư cơ điện",
+        content: "Giao diện app trực quan, dễ sử dụng. Đặc biệt là tính năng chẩn đoán lỗi bằng AI giúp tôi định hình vấn đề trước khi thợ tới.",
+        rating: 4
+    },
+    {
+        id: 'f4',
+        user_name: "Phạm Hoàng Nam",
+        role: "Khách hàng thân thiết",
+        content: "Chương trình ưu đãi tích điểm rất thực tế. Vừa được sửa máy giá tốt, vừa có voucher giảm giá cho những lần tiếp theo. 10 điểm!",
+        rating: 5
+    }
+];
 
 const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
     <div 
@@ -404,6 +435,34 @@ const Komentar = () => {
                     <CommentForm onSubmit={handleCommentSubmit} isSubmitting={isSubmitting} error={error} />
                 </div>
 
+                {/* Khối giao diện hiển thị 4 đánh giá thực tế của khách hàng */}
+                <div className="mt-8 border-t border-white/10 pt-6" data-aos="fade-up" data-aos-duration="1000">
+                    <h4 className="text-sm font-semibold text-indigo-300 mb-4 flex items-center gap-2 uppercase tracking-wider">
+                        <Sparkles className="w-4 h-4 text-yellow-400 fill-current" />
+                        Đánh giá nổi bật từ khách hàng
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {feedbackData.map((fb) => (
+                            <div key={fb.id} className="p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-indigo-500/30 transition-all flex flex-col justify-between duration-300">
+                                <div>
+                                    <div className="flex justify-between items-start mb-2">
+                                        <div>
+                                            <h5 className="font-bold text-sm text-white">{fb.user_name}</h5>
+                                            <span className="text-[10px] text-indigo-400 font-medium uppercase tracking-wider">{fb.role}</span>
+                                        </div>
+                                        <div className="flex text-yellow-500 gap-0.5">
+                                            {[...Array(fb.rating)].map((_, i) => (
+                                                <Star key={i} className="w-3 h-3 fill-current" />
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <p className="text-gray-300 text-xs italic leading-relaxed">"{fb.content}"</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
                 <div className="space-y-4 h-[328px] overflow-y-auto overflow-x-hidden custom-scrollbar pt-1 pr-1 " data-aos="fade-up" data-aos-delay="200">
                     {/* Pinned Comment */}
                     {pinnedComment && (
@@ -421,7 +480,7 @@ const Komentar = () => {
                     {comments.length === 0 && !pinnedComment ? (
                         <div className="text-center py-8" data-aos="fade-in">
                             <UserCircle2 className="w-12 h-12 text-indigo-400 mx-auto mb-3 opacity-50" />
-                            <p className="text-gray-400">Chưa có bình luận nào. Hãy bắt đầu cuộc trò chuyện!</p>
+                            <p className="text-gray-400"></p>
                         </div>
                     ) : (
                         comments.map((comment, index) => (

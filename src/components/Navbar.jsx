@@ -25,11 +25,11 @@ const Navbar = () => {
 
     const userData = {
         name: "Hồ Duy Long",
-        level: "Thành viên Bạch kim",
-        levelProgress: 75,
-        nextLevelValue: "250.000 VNĐ",
-        balance: "1.250.000 VNĐ",
-        avatar: "https://i.pravatar.cc/150?u=longhoduy",
+        level: "Thành viên Thách Đấu",
+        levelProgress: 76,
+        nextLevelValue: "44.300.000 VNĐ",
+        balance: "155.700.000 VNĐ",
+        avatar: "https://files.catbox.moe/0wq6u1.png",
         isOnline: true,
         recentTransactions: [
             { id: 1, desc: "Nạp tiền hệ thống", amount: "+500.000đ", date: "Hôm nay", type: "plus" },
