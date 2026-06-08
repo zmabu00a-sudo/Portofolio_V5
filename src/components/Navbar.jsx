@@ -25,15 +25,16 @@ const Navbar = () => {
 
     const userData = {
         name: "Hồ Duy Long",
-        level: "Thành viên Thách Đấu",
+        level: "Thành viên Bạc",
         levelProgress: 76,
-        nextLevelValue: "44.300.000 VNĐ",
-        balance: "155.700.000 VNĐ",
-        avatar: "https://files.catbox.moe/0wq6u1.png",
+        nextLevelValue: "1.250.000 VNĐ",
+        balance: "1.700.000 VNĐ",
+        avatar: "https://files.catbox.moe/uoz3to.jpg",
         isOnline: true,
         recentTransactions: [
             { id: 1, desc: "Nạp tiền hệ thống", amount: "+500.000đ", date: "Hôm nay", type: "plus" },
-            { id: 2, desc: "Sửa chữa máy tính", amount: "-150.000đ", date: "Hôm qua", type: "minus" }
+            { id: 2, desc: "Sửa chữa máy tính", amount: "-150.000đ", date: "Hôm qua", type: "minus" },
+            { id: 3, desc: "Mua linh kiện chính hãng", amount: "-850.000đ", date: "1 tuần trước", type: "minus"}
         ]
     };
 
