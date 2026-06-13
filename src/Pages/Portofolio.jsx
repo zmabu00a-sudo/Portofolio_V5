@@ -98,6 +98,14 @@ const INITIAL_MESSAGES = [
   },
 ];
 
+// Gợi ý nhanh các lỗi thường gặp – hiển thị dưới dạng chip khi mới mở chat
+const QUICK_REPLIES = [
+  "Điều hòa không lạnh, chỉ chạy quạt gió",
+  "Tủ lạnh có tiếng kêu to bất thường",
+  "Máy giặt báo lỗi, không vào nước",
+  "Tivi lên hình nhưng mất tiếng",
+];
+
 // ---------------------------------------------------------------------------
 // Dữ liệu kỹ thuật viên
 // ---------------------------------------------------------------------------
@@ -495,7 +503,12 @@ function renderMarkdown(text) {
 // ---------------------------------------------------------------------------
 function TypingBubble() {
   return (
-    <div className="flex justify-start animate-in fade-in slide-in-from-bottom-2 duration-300">
+    <div className="flex items-end gap-2 justify-start animate-in fade-in slide-in-from-bottom-2 duration-300">
+      {/* Avatar mini của bot - vòng pulse thể hiện AI đang "suy nghĩ" */}
+      <div className="relative w-7 h-7 flex items-center justify-center bg-purple-500/20 rounded-full shrink-0">
+        <span className="absolute inset-0 rounded-full bg-purple-500/40 animate-ping" />
+        <Bot size={14} className="relative text-purple-300" />
+      </div>
       <div className="max-w-[85%] p-4 rounded-2xl rounded-tl-none bg-[#16162d] border border-white/10 flex items-center gap-2">
         <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce [animation-delay:0ms]" />
         <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce [animation-delay:150ms]" />
@@ -544,6 +557,8 @@ export default function FullWidthTabs() {
 
   // Ảnh đính kèm cho câu hỏi AI
   const [selectedImage, setSelectedImage] = useState(null); // { dataUrl, name }
+  // Ảnh đang được xem phóng to (lightbox)
+  const [lightboxImage, setLightboxImage] = useState(null);
 
   // Ref để cuộn xuống cuối danh sách tin nhắn
   const chatEndRef = useRef(null);
@@ -590,6 +605,7 @@ export default function FullWidthTabs() {
     setChatInput("");
     setIsAiTyping(false);
     setSelectedImage(null);
+    setLightboxImage(null);
   };
 
   const handleTechnicianClick = (name) => {
@@ -633,8 +649,8 @@ export default function FullWidthTabs() {
   // ---------------------------------------------------------------------------
   // Gửi tin nhắn – async thực thụ, truyền toàn bộ history vào AI
   // ---------------------------------------------------------------------------
-  const handleSendMessage = async () => {
-    const trimmed = chatInput.trim();
+  const handleSendMessage = async (overrideText) => {
+    const trimmed = (overrideText ?? chatInput).trim();
     const image = selectedImage;
     if ((!trimmed && !image) || isAiTyping) return;
 
@@ -791,8 +807,9 @@ export default function FullWidthTabs() {
                 <div className="flex flex-col h-[70vh] w-full">
                   {/* Header */}
                   <div className="flex items-center gap-4 mb-6 border-b border-white/10 pb-4">
-                    <div className="p-3 bg-purple-500/20 rounded-2xl">
-                      <Bot className="text-purple-400 w-8 h-8" />
+                    <div className="relative p-3 bg-purple-500/20 rounded-2xl">
+                      {isAiTyping && <span className="absolute inset-0 rounded-2xl bg-purple-500/40 animate-ping" />}
+                      <Bot className="relative text-purple-400 w-8 h-8" />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold text-white">Smart Diagnosis AI</h3>
@@ -804,44 +821,90 @@ export default function FullWidthTabs() {
                   </div>
 
                   {/* Khu vực tin nhắn */}
-                  <div className="flex-1 bg-[#050510]/50 border border-white/5 rounded-2xl p-4 md:p-6 overflow-y-auto mb-6 space-y-4 custom-scrollbar">
-                    {chatMessages.map((msg, i) => (
-                      <div
-                        key={i}
-                        className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} animate-in fade-in slide-in-from-bottom-2 duration-300`}
-                      >
-                        <div
-                          className={`max-w-[85%] p-4 rounded-2xl text-[13.5px] leading-relaxed ${
-                            msg.role === "user"
-                              ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-tr-none shadow-lg shadow-purple-900/20"
-                              : "bg-[#16162d] text-slate-200 rounded-tl-none border border-white/10"
-                          }`}
-                        >
-                          {msg.role === "ai" ? (
-                            renderMarkdown(msg.content)
-                          ) : typeof msg.content === "object" && msg.content !== null ? (
-                            <div className="flex flex-col gap-2">
-                              {msg.content.image && (
-                                <img
-                                  src={msg.content.image}
-                                  alt="Ảnh đính kèm"
-                                  className="max-w-full max-h-60 rounded-xl border border-white/10 object-contain"
-                                />
+                  <div className="relative flex-1 mb-6">
+                    {/* Hoạ tiết nền dạng lưới chấm - trang trí, không chặn tương tác */}
+                    <div
+                      className="absolute inset-0 rounded-2xl opacity-50 pointer-events-none"
+                      style={{
+                        backgroundImage: "radial-gradient(circle, rgba(139,92,246,0.16) 1px, transparent 1px)",
+                        backgroundSize: "24px 24px",
+                      }}
+                    />
+
+                    <div className="relative z-10 h-full bg-[#050510]/60 border border-white/5 rounded-2xl p-4 md:p-6 overflow-y-auto space-y-4 custom-scrollbar">
+                      {chatMessages.map((msg, i) => (
+                        <React.Fragment key={i}>
+                          <div
+                            className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} animate-in fade-in slide-in-from-bottom-2 duration-300`}
+                          >
+                            <div
+                              className={`max-w-[85%] p-4 rounded-2xl text-[13.5px] leading-relaxed ${
+                                msg.role === "user"
+                                  ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-tr-none shadow-lg shadow-purple-900/20"
+                                  : "bg-[#16162d] text-slate-200 rounded-tl-none border border-white/10"
+                              }`}
+                            >
+                              {msg.role === "ai" ? (
+                                renderMarkdown(msg.content)
+                              ) : typeof msg.content === "object" && msg.content !== null ? (
+                                <div className="flex flex-col gap-2">
+                                  {msg.content.image && (
+                                    <img
+                                      src={msg.content.image}
+                                      alt="Ảnh đính kèm"
+                                      onClick={() => setLightboxImage(msg.content.image)}
+                                      className="max-w-full max-h-60 rounded-xl border border-white/10 object-contain cursor-zoom-in hover:opacity-90 transition-opacity"
+                                    />
+                                  )}
+                                  {msg.content.text && <span>{msg.content.text}</span>}
+                                </div>
+                              ) : (
+                                msg.content
                               )}
-                              {msg.content.text && <span>{msg.content.text}</span>}
                             </div>
-                          ) : (
-                            msg.content
+                          </div>
+
+                          {/* Hành động gợi ý sau kết quả chẩn đoán mới nhất */}
+                          {msg.role === "ai" && i > 0 && i === chatMessages.length - 1 && !isAiTyping && (
+                            <div className="flex flex-wrap gap-2 pl-1 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                              <button
+                                onClick={() => setActiveModal("technician-list")}
+                                className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 bg-purple-600/15 text-purple-300 border border-purple-500/30 rounded-full hover:bg-purple-600/25 hover:border-purple-500/50 transition-colors"
+                              >
+                                <User size={12} /> Đặt thợ ngay
+                              </button>
+                              <button
+                                onClick={() => setActiveModal("distributor-list")}
+                                className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 bg-blue-600/15 text-blue-300 border border-blue-500/30 rounded-full hover:bg-blue-600/25 hover:border-blue-500/50 transition-colors"
+                              >
+                                <Settings size={12} /> Tìm linh kiện thay thế
+                              </button>
+                            </div>
                           )}
+                        </React.Fragment>
+                      ))}
+
+                      {/* Gợi ý nhanh các lỗi thường gặp - chỉ hiện khi chat vừa mở */}
+                      {chatMessages.length === 1 && !isAiTyping && (
+                        <div className="flex flex-wrap gap-2 pl-1 animate-in fade-in slide-in-from-bottom-2 duration-500">
+                          {QUICK_REPLIES.map((q, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => handleSendMessage(q)}
+                              className="text-xs px-3 py-2 bg-white/5 border border-white/10 text-slate-300 rounded-full hover:bg-purple-500/10 hover:border-purple-500/40 hover:text-purple-300 transition-all"
+                            >
+                              {q}
+                            </button>
+                          ))}
                         </div>
-                      </div>
-                    ))}
+                      )}
 
-                    {/* Bong bóng loading khi AI đang xử lý */}
-                    {isAiTyping && <TypingBubble />}
+                      {/* Bong bóng loading khi AI đang xử lý */}
+                      {isAiTyping && <TypingBubble />}
 
-                    {/* Anchor để auto-scroll */}
-                    <div ref={chatEndRef} />
+                      {/* Anchor để auto-scroll */}
+                      <div ref={chatEndRef} />
+                    </div>
                   </div>
 
                   {/* Preview ảnh đã chọn */}
@@ -866,7 +929,7 @@ export default function FullWidthTabs() {
                   {/* Ô nhập liệu */}
                   <div className="relative group">
                     {/* Lớp glow trang trí – pointer-events-none để không chặn click các phần tử bên trên */}
-                    <div className="absolute inset-0 bg-purple-500/10 blur-xl rounded-full opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
+                    <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/25 via-fuchsia-500/20 to-blue-500/25 blur-xl rounded-3xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                     {/* Input file ẩn dùng để chọn ảnh */}
                     <input
@@ -907,9 +970,9 @@ export default function FullWidthTabs() {
 
                     <button
                       type="button"
-                      onClick={handleSendMessage}
+                      onClick={() => handleSendMessage()}
                       disabled={isAiTyping || (!chatInput.trim() && !selectedImage)}
-                      className="absolute right-3 top-3 z-10 p-3 bg-purple-600 text-white rounded-xl hover:bg-purple-500 transition-all shadow-lg active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-purple-600"
+                      className="absolute right-3 top-3 z-10 p-3 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white rounded-xl hover:from-purple-500 hover:to-fuchsia-500 hover:scale-105 transition-all shadow-lg shadow-purple-900/30 active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:from-purple-600 disabled:to-fuchsia-600"
                     >
                       <Send size={22} />
                     </button>
@@ -1020,6 +1083,26 @@ export default function FullWidthTabs() {
           boxShadow: "0 8px 30px rgba(16,185,129,0.4)", zIndex: 100000,
         }}>
           ✅ Đã đặt lịch với {techToast}!
+        </div>
+      )}
+
+      {/* Lightbox xem ảnh đính kèm trong chat ở kích thước đầy đủ */}
+      {lightboxImage && (
+        <div
+          onClick={() => setLightboxImage(null)}
+          className="fixed inset-0 z-[100001] bg-black/90 backdrop-blur-sm flex items-center justify-center p-6 cursor-zoom-out animate-in fade-in duration-200"
+        >
+          <img
+            src={lightboxImage}
+            alt="Ảnh xem đầy đủ"
+            className="max-w-full max-h-full rounded-2xl shadow-2xl border border-white/10 object-contain"
+          />
+          <button
+            onClick={() => setLightboxImage(null)}
+            className="absolute top-5 right-5 p-2 bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors"
+          >
+            <X size={24} />
+          </button>
         </div>
       )}
     </div>
