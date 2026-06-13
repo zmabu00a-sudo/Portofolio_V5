@@ -12,7 +12,7 @@ import CardProject from "../components/CardProject";
 import TechStackIcon from "../components/TechStackIcon";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { Code, Boxes, ShieldCheck, X, Send, User, Settings, Bot, ImagePlus, Paperclip } from "lucide-react";
+import { Code, Boxes, ShieldCheck, X, Send, User, Settings, Bot, ImagePlus, Paperclip, ArrowUpRight } from "lucide-react";
 import { predictResponse } from "../chatbot";
 
 // ---------------------------------------------------------------------------
@@ -70,7 +70,7 @@ const distributors = [
   { name: "LG Electronics", logo: "https://files.catbox.moe/jc0d71.png",          url: "https://www.lg.com/vn" },
   { name: "Daikin VN",      logo: "https://cdn.worldvectorlogo.com/logos/daikin.svg", url: "https://www.daikin.com.vn" },
   { name: "Toshiba",        logo: "https://cdn.worldvectorlogo.com/logos/toshiba.svg", url: "https://www.toshiba.com.vn" },
-  { name: "Samsung",        logo: "https://files.catbox.moe/w1mz32.png",           url: "https://www.samsung.com/vn" },
+  { name: "Samsung",        logo: "https://files.catbox.moe/gflwjq.png",           url: "https://www.samsung.com/vn" },
   { name: "Panasonic",      logo: "https://files.catbox.moe/371cr6.png",            url: "https://www.panasonic.com/vn" },
   { name: "Sharp",          logo: "https://files.catbox.moe/5cwzl3.png",            url: "https://vn.sharp" },
 ];
@@ -97,6 +97,305 @@ const INITIAL_MESSAGES = [
       "Chào bạn! Tôi là trợ lý AI Smart Connect. Hãy mô tả lỗi thiết bị của bạn (điều hòa, tủ lạnh, máy giặt...) để tôi hỗ trợ chẩn đoán nhé! 🔧",
   },
 ];
+
+// ---------------------------------------------------------------------------
+// Dữ liệu kỹ thuật viên
+// ---------------------------------------------------------------------------
+const technicianData = [
+  {
+    id: 1, name: "Hồ Duy Long", avatar: "H", color: "#7C3AED",
+    role: "Kỹ thuật viên chuyên nghiệp", rating: 5.0, reviews: 128,
+    online: true, experience: "5 năm kinh nghiệm", location: "Quận 1, TP.HCM",
+    specialties: ["Điều hòa", "Tủ lạnh", "Máy giặt"],
+    badges: ["Top Rated", "Phản hồi nhanh"], completedJobs: 312,
+    bio: "Chuyên sửa chữa và bảo trì thiết bị điện lạnh gia đình. Cam kết đúng giờ, báo giá minh bạch trước khi làm.",
+    certificates: ["Chứng chỉ Kỹ thuật Lạnh – Trường CĐ Kỹ thuật Cao Thắng", "Chứng nhận bảo hành Daikin"],
+  },
+  {
+    id: 2, name: "Nguyễn Trung", avatar: "N", color: "#6D28D9",
+    role: "Kỹ thuật viên chuyên nghiệp", rating: 4.9, reviews: 95,
+    online: true, experience: "4 năm kinh nghiệm", location: "Quận 3, TP.HCM",
+    specialties: ["TV", "Lò vi sóng", "Bếp từ"],
+    badges: ["Phản hồi nhanh"], completedJobs: 241,
+    bio: "Thợ điện tử gia dụng, thành thạo sửa tivi, bếp từ, lò vi sóng các thương hiệu Samsung, LG, Panasonic.",
+    certificates: ["Chứng chỉ Điện tử Dân dụng – Trường TCN Nguyễn Trường Tộ"],
+  },
+  {
+    id: 3, name: "Lê Công", avatar: "L", color: "#5B21B6",
+    role: "Kỹ thuật viên chuyên nghiệp", rating: 4.8, reviews: 74,
+    online: false, experience: "3 năm kinh nghiệm", location: "Quận 7, TP.HCM",
+    specialties: ["Máy giặt", "Bình nóng lạnh"],
+    badges: ["Top Rated"], completedJobs: 187,
+    bio: "Chuyên xử lý các sự cố máy giặt, bình nóng lạnh. Có đầy đủ dụng cụ chuyên dụng, sửa tại nhà nhanh gọn.",
+    certificates: ["Chứng chỉ Điện – Nước Gia dụng – Trung tâm GDNN Quận 7"],
+  },
+  {
+    id: 4, name: "Trần Anh", avatar: "T", color: "#7C3AED",
+    role: "Kỹ thuật viên chuyên nghiệp", rating: 5.0, reviews: 210,
+    online: true, experience: "7 năm kinh nghiệm", location: "Bình Thạnh, TP.HCM",
+    specialties: ["Điều hòa", "Tủ lạnh", "TV", "Bếp từ"],
+    badges: ["Top Rated", "Phản hồi nhanh", "Thợ xuất sắc"], completedJobs: 520,
+    bio: "Thợ lành nghề hơn 7 năm, từng làm tại trung tâm bảo hành Daikin. Nhận sửa tất cả thiết bị điện lạnh.",
+    certificates: ["Chứng chỉ Kỹ thuật Lạnh – Trường CĐ Kỹ thuật Cao Thắng", "Chứng nhận bảo hành Daikin", "Chứng chỉ An toàn Điện – Sở LĐTBXH TP.HCM"],
+  },
+  {
+    id: 5, name: "Phạm Minh", avatar: "P", color: "#6D28D9",
+    role: "Kỹ thuật viên chuyên nghiệp", rating: 4.7, reviews: 56,
+    online: false, experience: "2 năm kinh nghiệm", location: "Gò Vấp, TP.HCM",
+    specialties: ["Quạt điện", "Máy hút bụi", "Lò vi sóng"],
+    badges: [], completedJobs: 98,
+    bio: "Thợ trẻ nhiệt tình, giá cả hợp lý. Chuyên các thiết bị gia dụng nhỏ, phục vụ tận nơi khu vực Gò Vấp.",
+    certificates: [],
+  },
+  {
+    id: 6, name: "Hoàng Nam", avatar: "H", color: "#5B21B6",
+    role: "Kỹ thuật viên chuyên nghiệp", rating: 4.9, reviews: 143,
+    online: true, experience: "6 năm kinh nghiệm", location: "Tân Bình, TP.HCM",
+    specialties: ["Điều hòa", "Máy giặt", "Tủ lạnh"],
+    badges: ["Top Rated", "Phản hồi nhanh"], completedJobs: 389,
+    bio: "Chuyên bảo dưỡng và sửa chữa điều hòa, tủ lạnh thương hiệu lớn. Có chứng chỉ kỹ thuật lạnh từ trường nghề.",
+    certificates: ["Chứng chỉ Kỹ thuật Lạnh – Trường CĐ Kỹ thuật Cao Thắng", "Chứng nhận bảo dưỡng LG Electronics"],
+  },
+];
+
+const badgeStyle = {
+  "Top Rated":      { bg: "#FEF3C7", text: "#92400E", icon: "🏆" },
+  "Phản hồi nhanh": { bg: "#D1FAE5", text: "#065F46", icon: "⚡" },
+  "Thợ xuất sắc":   { bg: "#EDE9FE", text: "#5B21B6", icon: "⭐" },
+};
+
+// ---------------------------------------------------------------------------
+// ProfileModal – hồ sơ đầy đủ kỹ thuật viên
+// ---------------------------------------------------------------------------
+function ProfileModal({ tech, onClose, onBook }) {
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed", inset: 0, zIndex: 99999,
+        background: "rgba(0,0,0,0.85)", display: "flex",
+        alignItems: "center", justifyContent: "center",
+        backdropFilter: "blur(6px)",
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: "#1A1730", borderRadius: 24, width: 460,
+          maxWidth: "95vw", maxHeight: "90vh", overflowY: "auto",
+          boxShadow: "0 30px 80px rgba(0,0,0,0.6)",
+          border: "1px solid rgba(124,58,237,0.3)",
+        }}
+      >
+        {/* Banner */}
+        <div style={{ background: "linear-gradient(135deg, #4C1D95, #2D1B69)", padding: "28px 28px 0", position: "relative" }}>
+          <button
+            onClick={onClose}
+            style={{
+              position: "absolute", top: 14, right: 14,
+              background: "rgba(255,255,255,0.12)", border: "none",
+              borderRadius: "50%", width: 34, height: 34,
+              color: "#fff", cursor: "pointer", fontSize: 20, lineHeight: 1,
+            }}
+          >×</button>
+          <div style={{ display: "flex", gap: 18, alignItems: "flex-end", paddingBottom: 24 }}>
+            <div style={{ position: "relative" }}>
+              <div style={{
+                width: 80, height: 80, borderRadius: "50%",
+                background: tech.color, display: "flex", alignItems: "center",
+                justifyContent: "center", fontSize: 30, fontWeight: 700, color: "#fff",
+                border: "3px solid rgba(255,255,255,0.2)",
+              }}>{tech.avatar}</div>
+              <div style={{
+                position: "absolute", bottom: 4, right: 4,
+                width: 16, height: 16, borderRadius: "50%",
+                background: tech.online ? "#10B981" : "#6B7280",
+                border: "2px solid #1A1730",
+              }} />
+            </div>
+            <div>
+              <h2 style={{ color: "#fff", margin: 0, fontSize: 22, fontWeight: 700 }}>{tech.name}</h2>
+              <p style={{ color: "#A78BFA", margin: "4px 0 0", fontSize: 13 }}>{tech.experience}</p>
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: 6, marginTop: 6,
+                background: "rgba(255,255,255,0.1)", padding: "3px 12px", borderRadius: 20,
+              }}>
+                <span style={{ width: 8, height: 8, borderRadius: "50%", background: tech.online ? "#10B981" : "#6B7280", display: "inline-block" }} />
+                <span style={{ color: tech.online ? "#10B981" : "#94A3B8", fontSize: 12 }}>
+                  {tech.online ? "Đang trực tuyến" : "Ngoại tuyến"}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+          {[
+            { label: "Đánh giá",   value: `${tech.rating} ★` },
+            { label: "Lượt review", value: tech.reviews },
+            { label: "Việc xong",  value: tech.completedJobs },
+          ].map((s, i) => (
+            <div key={i} style={{
+              padding: "16px 0", textAlign: "center",
+              borderRight: i < 2 ? "1px solid rgba(255,255,255,0.06)" : "none",
+            }}>
+              <div style={{ color: "#A78BFA", fontWeight: 700, fontSize: 18 }}>{s.value}</div>
+              <div style={{ color: "#475569", fontSize: 11, marginTop: 2 }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Body */}
+        <div style={{ padding: 24 }}>
+          <p style={{ color: "#CBD5E1", fontSize: 14, lineHeight: 1.7, margin: "0 0 20px" }}>{tech.bio}</p>
+
+          {/* Khu vực */}
+          <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 16 }}>
+            <span style={{ fontSize: 16 }}>📍</span>
+            <span style={{ color: "#475569", fontSize: 13, width: 70 }}>Khu vực</span>
+            <span style={{ color: "#CBD5E1", fontSize: 14 }}>{tech.location}</span>
+          </div>
+
+          {/* Chuyên môn */}
+          <div style={{ margin: "20px 0 8px", color: "#475569", fontSize: 11, textTransform: "uppercase", letterSpacing: 1 }}>Chuyên môn</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 20 }}>
+            {tech.specialties.map((s) => (
+              <span key={s} style={{
+                background: "rgba(124,58,237,0.15)", color: "#A78BFA",
+                borderRadius: 8, padding: "5px 12px", fontSize: 13,
+                border: "1px solid rgba(124,58,237,0.25)",
+              }}>{s}</span>
+            ))}
+          </div>
+
+          {/* Chứng chỉ hành nghề */}
+          {tech.certificates && tech.certificates.length > 0 && (
+            <>
+              <div style={{ margin: "0 0 8px", color: "#475569", fontSize: 11, textTransform: "uppercase", letterSpacing: 1 }}>Chứng chỉ hành nghề</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 }}>
+                {tech.certificates.map((cert, i) => (
+                  <div key={i} style={{
+                    display: "flex", alignItems: "flex-start", gap: 10,
+                    background: "rgba(16,185,129,0.07)", border: "1px solid rgba(16,185,129,0.2)",
+                    borderRadius: 10, padding: "9px 14px",
+                  }}>
+                    <span style={{ fontSize: 15, marginTop: 1 }}>📜</span>
+                    <span style={{ color: "#6EE7B7", fontSize: 13, lineHeight: 1.5 }}>{cert}</span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* Huy hiệu */}
+          {tech.badges.length > 0 && (
+            <>
+              <div style={{ margin: "0 0 8px", color: "#475569", fontSize: 11, textTransform: "uppercase", letterSpacing: 1 }}>Huy hiệu</div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
+                {tech.badges.map((b) => (
+                  <span key={b} style={{
+                    background: badgeStyle[b]?.bg, color: badgeStyle[b]?.text,
+                    borderRadius: 20, padding: "4px 12px", fontSize: 12, fontWeight: 600,
+                  }}>{badgeStyle[b]?.icon} {b}</span>
+                ))}
+              </div>
+            </>
+          )}
+
+          <button
+            onClick={() => { onBook(tech); onClose(); }}
+            style={{
+              width: "100%", padding: 14,
+              background: "linear-gradient(135deg, #7C3AED, #5B21B6)",
+              color: "#fff", border: "none", borderRadius: 12,
+              fontSize: 15, fontWeight: 700, cursor: "pointer",
+              boxShadow: "0 4px 20px rgba(124,58,237,0.4)",
+            }}
+          >
+            Đặt lịch với {tech.name.split(" ").pop()}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// TechCard – card trong danh sách
+// ---------------------------------------------------------------------------
+function TechCard({ tech, onViewProfile, onBook }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={() => onViewProfile(tech)}
+      style={{
+        background: hovered ? "rgba(124,58,237,0.08)" : "rgba(255,255,255,0.025)",
+        border: `1px solid ${hovered ? "rgba(124,58,237,0.35)" : "rgba(255,255,255,0.06)"}`,
+        borderRadius: 16, padding: "14px 16px",
+        display: "flex", alignItems: "center", gap: 14,
+        cursor: "pointer", transition: "all 0.2s",
+      }}
+    >
+      {/* Avatar + online dot */}
+      <div style={{ position: "relative", flexShrink: 0 }}>
+        <div style={{
+          width: 52, height: 52, borderRadius: "50%",
+          background: tech.color, display: "flex",
+          alignItems: "center", justifyContent: "center",
+          fontSize: 20, fontWeight: 700, color: "#fff",
+        }}>{tech.avatar}</div>
+        <div style={{
+          position: "absolute", bottom: 1, right: 1,
+          width: 13, height: 13, borderRadius: "50%",
+          background: tech.online ? "#10B981" : "#6B7280",
+          border: "2px solid #13111E",
+        }} />
+      </div>
+
+      {/* Thông tin chính */}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ color: "#E2E8F0", fontWeight: 600, fontSize: 15 }}>{tech.name}</span>
+          {tech.badges.includes("Top Rated") && (
+            <span style={{ background: "#FEF3C7", color: "#92400E", fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 20 }}>🏆 TOP</span>
+          )}
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3 }}>
+          <span style={{ color: "#FBBF24", fontSize: 12 }}>{"★".repeat(Math.floor(tech.rating))}</span>
+          <span style={{ color: "#94A3B8", fontSize: 12 }}>{tech.rating}</span>
+          <span style={{ color: "#334155" }}>·</span>
+          <span style={{ color: "#475569", fontSize: 12 }}>📍 {tech.location}</span>
+        </div>
+        <div style={{ display: "flex", gap: 6, marginTop: 5 }}>
+          {tech.specialties.slice(0, 2).map((s) => (
+            <span key={s} style={{
+              background: "rgba(124,58,237,0.12)", color: "#8B5CF6",
+              fontSize: 11, padding: "2px 8px", borderRadius: 6,
+            }}>{s}</span>
+          ))}
+          {tech.specialties.length > 2 && (
+            <span style={{ color: "#475569", fontSize: 11, paddingTop: 2 }}>+{tech.specialties.length - 2}</span>
+          )}
+        </div>
+      </div>
+
+      {/* Nút đặt lịch */}
+      <div style={{ flexShrink: 0 }}>
+        <button
+          onClick={(e) => { e.stopPropagation(); onBook(tech); }}
+          style={{
+            background: "linear-gradient(135deg, #7C3AED, #5B21B6)",
+            color: "#fff", border: "none", borderRadius: 10,
+            padding: "7px 16px", fontSize: 13, fontWeight: 600, cursor: "pointer",
+          }}
+        >Đặt lịch</button>
+      </div>
+    </div>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Utility: render markdown đơn giản thành JSX (không cần thư viện ngoài)
@@ -234,6 +533,14 @@ export default function FullWidthTabs() {
   const [chatMessages, setChatMessages] = useState(INITIAL_MESSAGES);
   const [isAiTyping, setIsAiTyping] = useState(false);          // ← loading state
   const [technicians, setTechnicians] = useState(["Hồ Duy Long", "Nguyễn Trung", "Lê Công", "Xem thêm"]);
+  const [selectedTech, setSelectedTech] = useState(null);
+  const [techFilter, setTechFilter] = useState("all");
+  const [techToast, setTechToast] = useState(null);
+
+  const handleBookTech = (tech) => {
+    setTechToast(tech.name);
+    setTimeout(() => setTechToast(null), 3000);
+  };
 
   // Ảnh đính kèm cho câu hỏi AI
   const [selectedImage, setSelectedImage] = useState(null); // { dataUrl, name }
@@ -615,47 +922,44 @@ export default function FullWidthTabs() {
               {/* ---------------------------------------------------------- */}
               {activeModal === "technician-list" && (
                 <div className="w-full">
-                  <h3 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
-                    <User className="text-purple-500 w-8 h-8" /> Kết nối chuyên gia
-                  </h3>
-                  <div className="grid grid-cols-1 gap-4">
-                    {technicians.map((name, i) => (
-                      <div
-                        key={i}
-                        className={`p-5 rounded-2xl border flex items-center justify-between transition-all ${
-                          name === "Xem thêm"
-                            ? "bg-purple-600/10 border-purple-500/30 cursor-pointer hover:bg-purple-600/20"
-                            : "bg-white/5 border-white/10 hover:border-white/20 hover:translate-x-2"
-                        }`}
-                        onClick={() => name === "Xem thêm" && handleTechnicianClick(name)}
-                      >
-                        <div className="flex items-center gap-4">
-                          <div
-                            className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-xl ${
-                              name === "Xem thêm"
-                                ? "bg-purple-500 text-white"
-                                : "bg-gradient-to-br from-purple-500 to-blue-600 text-white shadow-lg"
-                            }`}
-                          >
-                            {name === "Xem thêm" ? "+" : name[0]}
-                          </div>
-                          <div>
-                            <p className="text-white text-lg font-semibold">{name}</p>
-                            <p className="text-sm text-slate-400 italic">Kỹ thuật viên chuyên nghiệp • 5.0 ★</p>
-                          </div>
-                        </div>
+                  {/* Header */}
+                  <div style={{ marginBottom: 24 }}>
+                    <h3 className="text-3xl font-bold text-white flex items-center gap-3" style={{ marginBottom: 6 }}>
+                      <User className="text-purple-500 w-8 h-8" /> Kết nối chuyên gia
+                    </h3>
+                    <p style={{ color: "#475569", fontSize: 13, margin: "0 0 16px" }}>
+                      <span style={{ color: "#10B981", fontWeight: 600 }}>{technicianData.filter((t) => t.online).length}</span> thợ đang trực tuyến
+                    </p>
+                    {/* Filter */}
+                    <div style={{ display: "flex", gap: 8 }}>
+                      {[{ key: "all", label: "Tất cả" }, { key: "online", label: "⚡ Trực tuyến" }].map((f) => (
                         <button
-                          className={`px-6 py-2.5 rounded-xl font-bold transition-all ${
-                            name === "Xem thêm"
-                              ? "text-purple-400 border border-purple-500/50"
-                              : "bg-purple-600 text-white hover:bg-purple-700 hover:shadow-[0_0_15px_rgba(147,51,234,0.5)]"
-                          }`}
-                        >
-                          {name === "Xem thêm" ? "Mở rộng" : "Đặt lịch"}
-                        </button>
-                      </div>
+                          key={f.key}
+                          onClick={() => setTechFilter(f.key)}
+                          style={{
+                            padding: "6px 18px", borderRadius: 20, border: "none", fontSize: 13,
+                            fontWeight: 600, cursor: "pointer", transition: "all 0.2s",
+                            background: techFilter === f.key ? "#7C3AED" : "rgba(255,255,255,0.05)",
+                            color: techFilter === f.key ? "#fff" : "#64748B",
+                          }}
+                        >{f.label}</button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Danh sách card */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                    {(techFilter === "online"
+                      ? technicianData.filter((t) => t.online)
+                      : technicianData
+                    ).map((tech) => (
+                      <TechCard key={tech.id} tech={tech} onViewProfile={setSelectedTech} onBook={handleBookTech} />
                     ))}
                   </div>
+
+                  <p style={{ color: "#334155", fontSize: 12, textAlign: "center", marginTop: 16 }}>
+                    Nhấn vào card để xem hồ sơ đầy đủ
+                  </p>
                 </div>
               )}
 
@@ -674,13 +978,21 @@ export default function FullWidthTabs() {
                         href={brand.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group p-6 bg-[#16162d] rounded-3xl border border-white/10 flex flex-col items-center gap-5 hover:border-blue-500/50 transition-all hover:-translate-y-2"
+                        className="group relative p-6 bg-[#16162d] rounded-3xl border border-white/10 flex flex-col items-center gap-5 transition-all duration-300 hover:-translate-y-2 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/20"
                       >
-                        <div className="w-full h-28 flex items-center justify-center bg-white rounded-2xl p-4 shadow-inner group-hover:scale-105 transition-transform duration-300">
+                        {/* Mũi tên gợi ý click ra ngoài */}
+                        <ArrowUpRight
+                          size={18}
+                          className="absolute top-4 right-4 text-purple-400 opacity-0 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300"
+                        />
+
+                        {/* Khung logo - nổi lên kèm glow khi hover */}
+                        <div className="w-full h-28 flex items-center justify-center bg-white rounded-2xl p-4 shadow-md transition-all duration-300 ease-out group-hover:-translate-y-1 group-hover:scale-105 group-hover:shadow-[0_12px_30px_rgba(124,58,237,0.35)]">
                           <img src={brand.logo} alt={brand.name} className="max-w-full max-h-full object-contain" />
                         </div>
+
                         <div className="text-center">
-                          <p className="text-white font-bold text-lg group-hover:text-blue-400 transition-colors">{brand.name}</p>
+                          <p className="text-white font-bold text-lg group-hover:text-purple-400 transition-colors">{brand.name}</p>
                           <span className="text-[11px] px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full font-medium mt-2 inline-block">
                             Đối tác chính thức
                           </span>
@@ -692,6 +1004,22 @@ export default function FullWidthTabs() {
               )}
             </div>
           </div>
+        </div>
+      )}
+      
+      {selectedTech && (
+        <ProfileModal tech={selectedTech} onClose={() => setSelectedTech(null)} onBook={handleBookTech} />
+      )}
+
+      {/* Toast đặt lịch */}
+      {techToast && (
+        <div style={{
+          position: "fixed", bottom: 32, left: "50%", transform: "translateX(-50%)",
+          background: "#10B981", color: "#fff", padding: "14px 28px",
+          borderRadius: 16, fontWeight: 600, fontSize: 15,
+          boxShadow: "0 8px 30px rgba(16,185,129,0.4)", zIndex: 100000,
+        }}>
+          ✅ Đã đặt lịch với {techToast}!
         </div>
       )}
     </div>
