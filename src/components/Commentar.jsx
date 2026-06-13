@@ -11,22 +11,22 @@ const feedbackData = [
         id: 'f1',
         user_name: "Nguyễn Minh Tuấn",
         role: "Chủ căn hộ EcoPark",
-        content: "Hệ thống kết nối thợ rất nhanh. Kỹ thuật viên đến đúng giờ, làm việc sạch sẽ và báo giá minh bạch qua app. Rất đáng tin cậy!",
+        content: "Web hoạt động tốt, giao diện mượt mà các chức năng dễ sử dụng.",
         rating: 5
     },
     {
         id: 'f2',
         user_name: "Lê Thị Lan Anh",
-        role: "Doanh nghiệp nhỏ",
+        role: "Chủ doanh nghiệp nhỏ",
         content: "Gói bảo hiểm thiết bị của Smart Connect giúp mình yên tâm hơn hẳn. Quy trình xử lý lỗi nhanh, hỗ trợ kỹ thuật 24/7 rất chuyên nghiệp.",
         rating: 5
     },
     {
         id: 'f3',
         user_name: "Trần Văn Hùng",
-        role: "Kỹ sư cơ điện",
+        role: "Người dùng",
         content: "Giao diện app trực quan, dễ sử dụng. Đặc biệt là tính năng chẩn đoán lỗi bằng AI giúp tôi định hình vấn đề trước khi thợ tới.",
-        rating: 4
+        rating: 5
     },
     {
         id: 'f4',
@@ -439,7 +439,7 @@ const Komentar = () => {
                 <div className="mt-8 border-t border-white/10 pt-6" data-aos="fade-up" data-aos-duration="1000">
                     <h4 className="text-sm font-semibold text-indigo-300 mb-4 flex items-center gap-2 uppercase tracking-wider">
                         <Sparkles className="w-4 h-4 text-yellow-400 fill-current" />
-                        Đánh giá nổi bật từ khách hàng
+                        Đánh giá nổi bật từ khách hàng(Demo)
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {feedbackData.map((fb) => (
