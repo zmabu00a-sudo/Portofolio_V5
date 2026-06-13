@@ -10,30 +10,30 @@ const feedbackData = [
     {
         id: 'f1',
         user_name: "Nguyễn Minh Tuấn",
-        role: "Chủ căn hộ EcoPark",
-        content: "Web hoạt động tốt, giao diện mượt mà các chức năng dễ sử dụng.",
+        role: "Nhân viên công ty",
+        content: "Web hoạt động tốt, giao diện mượt mà các chức năng dễ sử dụng,tốc độ tải trang nhanh và bố cục thông tin cực kỳ tinh gọn. Mình rất thích cách bạn tối ưu hiển thị trên điện thoại..",
         rating: 5
     },
     {
         id: 'f2',
         user_name: "Lê Thị Lan Anh",
-        role: "Chủ doanh nghiệp nhỏ",
-        content: "Gói bảo hiểm thiết bị của Smart Connect giúp mình yên tâm hơn hẳn. Quy trình xử lý lỗi nhanh, hỗ trợ kỹ thuật 24/7 rất chuyên nghiệp.",
-        rating: 5
+        role: "Kỹ sư",
+        content: "Trải nghiệm người dùng ban đầu khá tốt. Các nút kêu gọi hành động rõ ràng, màu sắc phối hợp hài hòa, nhưng phông chữ phần đầu hơi lỗi một chút",
+        rating: 4
     },
     {
         id: 'f3',
         user_name: "Trần Văn Hùng",
         role: "Người dùng",
-        content: "Giao diện app trực quan, dễ sử dụng. Đặc biệt là tính năng chẩn đoán lỗi bằng AI giúp tôi định hình vấn đề trước khi thợ tới.",
+        content: "Giao diện app trực quan, dễ sử dụng. Đặc biệt là tính năng chẩn đoán lỗi bằng AI giúp tôi biết trước bệnh tình.",
         rating: 5
     },
     {
         id: 'f4',
         user_name: "Phạm Hoàng Nam",
-        role: "Khách hàng thân thiết",
-        content: "Chương trình ưu đãi tích điểm rất thực tế. Vừa được sửa máy giá tốt, vừa có voucher giảm giá cho những lần tiếp theo. 10 điểm!",
-        rating: 5
+        role: "Sinh viên",
+        content: "Ấn tượng đầu tiên là web load rất nhanh, tuy nhiên ở phần danh sách dự án, mình nghĩ bạn nên bổ sung thêm bộ lọc theo công nghệ để người xem dễ tìm kiếm hơn.",
+        rating: 4
     }
 ];
 
