@@ -113,25 +113,25 @@ const technicianData = [
   {
     id: 1, name: "Hồ Duy Long", avatar: "H", color: "#7C3AED",
     role: "Kỹ thuật viên chuyên nghiệp", rating: 5.0, reviews: 128,
-    online: true, experience: "5 năm kinh nghiệm", location: "Quận 1, TP.HCM",
+    online: true, experience: "5 năm kinh nghiệm", location: "Hoàn Kiếm, Hà Nội",
     specialties: ["Điều hòa", "Tủ lạnh", "Máy giặt"],
     badges: ["Top Rated", "Phản hồi nhanh"], completedJobs: 312,
     bio: "Chuyên sửa chữa và bảo trì thiết bị điện lạnh gia đình. Cam kết đúng giờ, báo giá minh bạch trước khi làm.",
-    certificates: ["Chứng chỉ Kỹ thuật Lạnh – Trường CĐ Kỹ thuật Cao Thắng", "Chứng nhận bảo hành Daikin"],
+    certificates: ["Chứng chỉ Kỹ thuật Lạnh – Trường CĐ nghề Bách khoa Hà Nội", "Chứng nhận bảo hành Daikin"],
   },
   {
     id: 2, name: "Nguyễn Trung", avatar: "N", color: "#6D28D9",
     role: "Kỹ thuật viên chuyên nghiệp", rating: 4.9, reviews: 95,
-    online: true, experience: "4 năm kinh nghiệm", location: "Quận 3, TP.HCM",
+    online: true, experience: "4 năm kinh nghiệm", location: "Cầu Giấy, Hà Nội",
     specialties: ["TV", "Lò vi sóng", "Bếp từ"],
     badges: ["Phản hồi nhanh"], completedJobs: 241,
     bio: "Thợ điện tử gia dụng, thành thạo sửa tivi, bếp từ, lò vi sóng các thương hiệu Samsung, LG, Panasonic.",
-    certificates: ["Chứng chỉ Điện tử Dân dụng – Trường TCN Nguyễn Trường Tộ"],
+    certificates: ["Chứng chỉ Điện tử Dân dụng – Trường TCN nghề Thanh Xuân"],
   },
   {
     id: 3, name: "Lê Công", avatar: "L", color: "#5B21B6",
     role: "Kỹ thuật viên chuyên nghiệp", rating: 4.8, reviews: 74,
-    online: false, experience: "3 năm kinh nghiệm", location: "Quận 7, TP.HCM",
+    online: false, experience: "3 năm kinh nghiệm", location: "Hoàng Mai, Hà Nội",
     specialties: ["Máy giặt", "Bình nóng lạnh"],
     badges: ["Top Rated"], completedJobs: 187,
     bio: "Chuyên xử lý các sự cố máy giặt, bình nóng lạnh. Có đầy đủ dụng cụ chuyên dụng, sửa tại nhà nhanh gọn.",
@@ -140,7 +140,7 @@ const technicianData = [
   {
     id: 4, name: "Trần Anh", avatar: "T", color: "#7C3AED",
     role: "Kỹ thuật viên chuyên nghiệp", rating: 5.0, reviews: 210,
-    online: true, experience: "7 năm kinh nghiệm", location: "Bình Thạnh, TP.HCM",
+    online: true, experience: "7 năm kinh nghiệm", location: "Nam Từ Liêm, Hà Nội",
     specialties: ["Điều hòa", "Tủ lạnh", "TV", "Bếp từ"],
     badges: ["Top Rated", "Phản hồi nhanh", "Thợ xuất sắc"], completedJobs: 520,
     bio: "Thợ lành nghề hơn 7 năm, từng làm tại trung tâm bảo hành Daikin. Nhận sửa tất cả thiết bị điện lạnh.",
@@ -149,7 +149,7 @@ const technicianData = [
   {
     id: 5, name: "Phạm Minh", avatar: "P", color: "#6D28D9",
     role: "Kỹ thuật viên chuyên nghiệp", rating: 4.7, reviews: 56,
-    online: false, experience: "2 năm kinh nghiệm", location: "Gò Vấp, TP.HCM",
+    online: false, experience: "2 năm kinh nghiệm", location: "Thanh Xuân, Hà Nội",
     specialties: ["Quạt điện", "Máy hút bụi", "Lò vi sóng"],
     badges: [], completedJobs: 98,
     bio: "Thợ trẻ nhiệt tình, giá cả hợp lý. Chuyên các thiết bị gia dụng nhỏ, phục vụ tận nơi khu vực Gò Vấp.",
@@ -158,11 +158,11 @@ const technicianData = [
   {
     id: 6, name: "Hoàng Nam", avatar: "H", color: "#5B21B6",
     role: "Kỹ thuật viên chuyên nghiệp", rating: 4.9, reviews: 143,
-    online: true, experience: "6 năm kinh nghiệm", location: "Tân Bình, TP.HCM",
+    online: true, experience: "6 năm kinh nghiệm", location: "Hai Bà Trưng, Hà Nội",
     specialties: ["Điều hòa", "Máy giặt", "Tủ lạnh"],
     badges: ["Top Rated", "Phản hồi nhanh"], completedJobs: 389,
     bio: "Chuyên bảo dưỡng và sửa chữa điều hòa, tủ lạnh thương hiệu lớn. Có chứng chỉ kỹ thuật lạnh từ trường nghề.",
-    certificates: ["Chứng chỉ Kỹ thuật Lạnh – Trường CĐ Kỹ thuật Cao Thắng", "Chứng nhận bảo dưỡng LG Electronics"],
+    certificates: ["Chứng chỉ Kỹ thuật Lạnh – Trường Cao CĐ Công nghệ cao Hà Nội", "Chứng nhận bảo dưỡng LG Electronics"],
   },
 ];
 
